@@ -1,0 +1,35 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if url %}
+  <nav>
+    <a href="{{ url_for('index') }}">Crawl Again</a>
+  </nav>
+  <hr>
+  <h1>{{ url }} crawling results</h1>
+  <ul>
+    {% for found_link in link_list %}
+      <li>{{ found_link }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <h1>Crawl a new website</h1>
+  <br />
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.url.label }}
+    {{ form.url() }}
+    {% if errors %}
+      {% for error in errors %}
+        <span class="error">{{ error }}</span>
+      {% endfor %}
+    {% endif %}
+    <br />
+    {{ form.submit() }}
+  </form>
+
+{% endif %}
+{% endblock %}
