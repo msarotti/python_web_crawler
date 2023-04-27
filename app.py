@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template
 from modules.forms import UrlForm
 from modules.factories import CrawlerFactory, ContentTypeFactory
-from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
