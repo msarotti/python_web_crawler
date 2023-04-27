@@ -11,8 +11,13 @@
   <hr>
   <h1>{{ url }} crawling results</h1>
   <ul>
-    {% for found_link in link_list %}
-      <li>{{ found_link }}</li>
+    {% for page, found_links in link_list.items() %}
+      <li>{{ page }}</li>
+      <ul>
+        {% for link in found_links %}
+          <li>{{ link }}</li>
+        {% endfor %}
+      </ul>
     {% endfor %}
   </ul>
 {% else %}

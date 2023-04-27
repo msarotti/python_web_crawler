@@ -11,7 +11,7 @@ def test_crawl(client, mocker):
     crawler = CrawlerFactory().create("web")
     content_type = ContentTypeFactory().create("html")
     link_list = crawler.crawl("/page1", content_type)
-    assert {'/page1', '/page2', '/page3'} == link_list
+    assert {'/page1':['/page1','/page2'], '/page2':['/page2','/page3'], '/page3':[]} == link_list
 
 def test_crawl_only_external_link(client, mocker):
     mocker.patch("modules.concretes.crawler.WebCrawler.is_valid_url", return_value=True)
@@ -20,7 +20,7 @@ def test_crawl_only_external_link(client, mocker):
     crawler = CrawlerFactory().create("web")
     content_type = ContentTypeFactory().create("html")
     link_list = crawler.crawl("/page3", content_type)
-    assert {'/page3'} == link_list
+    assert {'/page3': []} == link_list
 
 def test_crawl_no_link_page(client, mocker):
     mocker.patch("modules.concretes.crawler.WebCrawler.is_valid_url", return_value=True)
@@ -29,4 +29,4 @@ def test_crawl_no_link_page(client, mocker):
     crawler = CrawlerFactory().create("web")
     content_type = ContentTypeFactory().create("html")
     link_list = crawler.crawl("/page_no_link", content_type)
-    assert {'/page_no_link'} == link_list
+    assert {'/page_no_link': [] } == link_list

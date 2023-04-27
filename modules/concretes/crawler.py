@@ -12,15 +12,15 @@ class WebCrawler:
   def __init__(self):
     self.urls_to_visit = []
 
-  def crawl(self, start_url: str, content_type: Content) -> set:
-    link_list = set()
+  def crawl(self, start_url: str, content_type: Content) -> dict:
+    link_list = {}
     self.urls_to_visit.append(start_url)
     while self.urls_to_visit:
       url = self.urls_to_visit.pop()
-      if self.is_valid_url(url) and url not in link_list:
-        link_list.add(url)
+      if self.is_valid_url(url) and url not in link_list.keys():
         soup, domain = self.data_from_content(url, content_type)
-        self.get_link_list(soup, domain)
+        url_links = self.get_link_list(soup, domain)
+        link_list[url] = url_links
         
     return link_list
 
@@ -30,10 +30,13 @@ class WebCrawler:
       soup: BeautifulSoup,
       domain: str
     ) -> list:
+    url_links = []
     for link in soup.find_all('a'):
         link_domain = self.get_domain(link.get('href'))
         if self.is_in_domain(link_domain, domain) and not self.is_in_list(link.get('href'), self.urls_to_visit):
-          self.urls_to_visit.append(link.get('href'))    
+          self.urls_to_visit.append(link.get('href'))
+          url_links.append(link.get('href'))
+    return url_links
 
 
   def is_in_domain(self, link: str, domain: str) -> bool:
