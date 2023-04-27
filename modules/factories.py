@@ -1,6 +1,6 @@
 from modules.abstracts.protocols import Crawler, Content
-from modules.concretes.content import Html
-from modules.concretes.crawler import WebCrawler
+from modules.services.content import Html
+from modules.services.crawler import WebCrawler
 
 class CrawlerFactory:
   """Creates a crawler according to the passed type
